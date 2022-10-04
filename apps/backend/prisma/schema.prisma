@@ -1,0 +1,86 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Picture {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  url         String
+  key         String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  gallery     Gallery  @relation(fields: [galleryId], references: [id], onDelete: Cascade)
+  galleryId   String
+
+  @@map("pictures")
+}
+
+model GalleryAllowedUser {
+  id        String   @id @default(uuid())
+  email     String
+  gallery   Gallery  @relation(fields: [galleryId], references: [id], onDelete: Cascade)
+  galleryId String
+  createdAt DateTime @default(now())
+
+  @@map("galleries_allowed_users")
+}
+
+model Gallery {
+  id           String               @id @default(uuid())
+  name         String
+  description  String?
+  public       Boolean              @default(true)
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+  pictures     Picture[]
+  allowedUsers GalleryAllowedUser[]
+  user         User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
+
+  @@map("galleries")
+}
+
+model Profile {
+  id        String   @id @default(uuid())
+  name      String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("profiles")
+}
+
+model User {
+  id        String    @id @default(uuid())
+  googleId  String?   @unique
+  email     String    @unique
+  password  String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  profile   Profile?
+  pictures  Picture[]
+  galleries Gallery[]
+
+  @@map("users")
+}
+
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
+
+  @@map("sessions")
+}

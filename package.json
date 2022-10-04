@@ -1,0 +1,38 @@
+{
+  "name": "pictery",
+  "description": "An image gallery management application developed in Vue and Express.js with Typescript.",
+  "private": true,
+  "version": "1.0.0",
+  "license": "GPL-3.0-or-later",
+  "author": {
+    "name": "Luis Portillo",
+    "email": "devcorvus.contact@gmail.com",
+    "url": "https://www.devcorvus.com/"
+  },
+  "workspaces": [
+    "./apps/frontend",
+    "./apps/backend"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev -w backend\" \"npm run dev -w frontend\"",
+    "start": "npm run start -w backend",
+    "build": "concurrently \"npm run migrate -w backend && npm run build -w backend\" \"npm run build -w frontend\"",
+    "test": "npm run test -w backend && concurrently \"npm run dev -w frontend\" \"NODE_ENV=test npm run dev -w backend\" \"npm run test -w frontend\" --kill-others",
+    "lint": "eslint \"./apps/**/*.{ts,vue}\""
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.37.0",
+    "@typescript-eslint/parser": "^5.38.0",
+    "concurrently": "^7.4.0",
+    "eslint": "^8.23.1",
+    "eslint-import-resolver-typescript": "^3.5.1",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jest": "^27.0.4",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-security": "^1.5.0",
+    "eslint-plugin-vue": "^9.5.1"
+  },
+  "engines": {
+    "node": "16.17.0"
+  }
+}
