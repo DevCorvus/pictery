@@ -2,11 +2,10 @@
   "name": "frontend",
   "private": true,
   "version": "1.0.0",
-  "license": "GPL-3.0-or-later",
+  "license": "MIT",
   "author": {
     "name": "Luis Portillo",
-    "email": "devcorvus.contact@gmail.com",
-    "url": "https://www.devcorvus.com/"
+    "email": "devcorvus.contact@gmail.com"
   },
   "main": "postcss.config.js",
   "scripts": {
